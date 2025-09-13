@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dicky - Jedi Web3 & AI Engineer | May the Force be with Code",
-  description: "Full-Stack Jedi Engineer crafting the decentralized future with intelligent solutions across the galaxy. Web3, AI, and blockchain mastery.",
+  title: "Dicky Bayu - Full Stack Developer | Web3 & AI Engineer",
+  description: "Full-Stack Developer specializing in Web3, AI, and modern web technologies. Building innovative solutions with React, Next.js, blockchain, and machine learning.",
   icons: {
     icon: "/favicon.ico",
   }
