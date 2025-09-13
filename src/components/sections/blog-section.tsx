@@ -63,7 +63,7 @@ export const BlogSection = memo<SectionProps>(({ id = 'blog', className = '' }) 
               </h3>
               
               <p className="text-slate-300 mb-6 leading-relaxed group-hover:text-slate-200 transition-colors duration-300 max-w-2xl mx-auto">
-                I'm working on a space where I'll share my experiences with Web3 development, AI exploration, coding discoveries, and reflections on the latest technology trends. Join me on this learning journey!
+                I&apos;m working on a space where I&apos;ll share my experiences with Web3 development, AI exploration, coding discoveries, and reflections on the latest technology trends. Join me on this learning journey!
               </p>
               
               {/* Features Preview */}
@@ -89,7 +89,7 @@ export const BlogSection = memo<SectionProps>(({ id = 'blog', className = '' }) 
                 whileTap={{ scale: 0.95 }}
               >
                 <span className="mr-2">🚀</span>
-                <span className="font-medium">Get notified when it's ready!</span>
+                <span className="font-medium">Get notified when it&apos;s ready!</span>
               </motion.div>
             </div>
           </motion.div>

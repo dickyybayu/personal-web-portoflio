@@ -189,12 +189,13 @@ Respond in a friendly, professional way. Use emojis occasionally. Keep responses
         const response = await result.response;
         const text = response.text();
         return NextResponse.json({ response: text });
-      } catch (error: any) {
+      } catch (error: unknown) {
         lastError = error;
         console.error(`Gemini API attempt ${attempt} failed:`, error);
         
         // Check if it's a 503 (overloaded) or 429 (rate limit) error
-        if (error.status === 503 || error.status === 429) {
+        const errorStatus = error && typeof error === 'object' && 'status' in error ? (error as { status: number }).status : null;
+        if (errorStatus === 503 || errorStatus === 429) {
           if (attempt < 3) {
             // Wait with exponential backoff: 1s, 2s, 4s
             const delay = Math.pow(2, attempt - 1) * 1000;
@@ -210,13 +211,15 @@ Respond in a friendly, professional way. Use emojis occasionally. Keep responses
     }
 
     // If all retries failed, return appropriate error message
-    if (lastError?.status === 503) {
+    const lastErrorStatus = lastError && typeof lastError === 'object' && 'status' in lastError ? (lastError as { status: number }).status : null;
+    
+    if (lastErrorStatus === 503) {
       return NextResponse.json({ 
         error: "🤖 I'm temporarily overloaded! The AI service is experiencing high traffic. Please try again in a few moments." 
       }, { status: 503 });
     }
     
-    if (lastError?.status === 429) {
+    if (lastErrorStatus === 429) {
       return NextResponse.json({ 
         error: "🚦 Slow down there! Too many requests. Please wait a moment before asking another question." 
       }, { status: 429 });

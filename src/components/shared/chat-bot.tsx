@@ -287,11 +287,11 @@ const ChatBot = memo(() => {
       }
 
       return data.response
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error generating response:', error)
       
       // Handle specific error messages from the API
-      if (error.message && (error.message.includes('overloaded') || error.message.includes('high traffic'))) {
+      if (error instanceof Error && error.message && (error.message.includes('overloaded') || error.message.includes('high traffic'))) {
         return "🤖 I'm temporarily overloaded! The AI service is experiencing high traffic. Please try again in a few moments. ⏳"
       }
       
@@ -401,7 +401,7 @@ const ChatBot = memo(() => {
           >
             <div className="relative px-4 py-2 bg-gradient-to-r from-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-600/30 shadow-lg">
               <p className="text-xs text-slate-300 font-medium whitespace-nowrap">
-                � Hi! I'm <span className="text-accent-cyan">Dicky's</span> AI Assistant
+                🤖 Hi! I&apos;m <span className="text-accent-cyan">Dicky&apos;s</span> AI Assistant
               </p>
               <p className="text-xs text-slate-400 font-normal mt-1 whitespace-nowrap">
                 Click to get to know Dicky better!
@@ -479,7 +479,7 @@ const ChatBot = memo(() => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Dicky's AI Assistant</h3>
+                    <h3 className="text-lg font-bold text-white">Dicky&apos;s AI Assistant</h3>
                     <p className="text-xs text-slate-300">✨ Your personal guide to explore amazing projects & skills</p>
                   </div>
                 </div>
@@ -523,7 +523,7 @@ const ChatBot = memo(() => {
                             </div>
                           </div>
                         </span>
-                        Hey there! 👋 I'm Dicky's personal AI companion. Ready to dive deep into his world? I've got all the insider info on his full-stack development journey, amazing projects, technical expertise, and personal interests beyond coding! Fire away with any questions!
+                        Hey there! 👋 I&apos;m Dicky&apos;s personal AI companion. Ready to dive deep into his world? I&apos;ve got all the insider info on his full-stack development journey, amazing projects, technical expertise, and personal interests beyond coding! Fire away with any questions!
                       </div>
                       <div className="space-y-2">
                         {suggestedQuestions.map((question, index) => (

@@ -229,7 +229,7 @@ export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) 
           }}
         >
           Passionate about crafting innovative decentralized solutions that bridge blockchain technology 
-          and artificial intelligence to shape tomorrow's digital landscape.
+          and artificial intelligence to shape tomorrow&apos;s digital landscape.
         </motion.p>
 
         {/* Social Links */}

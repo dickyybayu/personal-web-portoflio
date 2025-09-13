@@ -56,9 +56,9 @@ export const ContactSection = memo<SectionProps>(({ id = 'contact', className = 
       <div className="max-w-4xl mx-auto">
         <FadeInView>
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 text-gradient">Let's Connect</h2>
+            <h2 className="text-4xl font-bold mb-4 text-gradient">Let&apos;s Connect</h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Ready to collaborate? Let's discuss your next project or just say hello
+              Ready to collaborate? Let&apos;s discuss your next project or just say hello
             </p>
           </div>
         </FadeInView>

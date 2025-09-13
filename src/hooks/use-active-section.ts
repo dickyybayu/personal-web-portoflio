@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const throttle = (func: Function, limit: number) => {
+type ThrottledFunction = (...args: unknown[]) => void
+
+const throttle = (func: ThrottledFunction, limit: number): ThrottledFunction => {
   let inThrottle: boolean
-  return function(this: any, ...args: any[]) {
+  return function(this: unknown, ...args: unknown[]) {
     if (!inThrottle) {
       func.apply(this, args)
       inThrottle = true
@@ -14,8 +16,8 @@ const throttle = (func: Function, limit: number) => {
 export const useActiveSection = (sectionIds: string[]) => {
   const [activeSection, setActiveSection] = useState(sectionIds[0] || '')
 
-  const updateActiveSection = useCallback(
-    throttle(() => {
+  const updateActiveSection = useCallback(() => {
+    const throttledUpdate = throttle(() => {
       const sections = sectionIds.map(id => {
         const element = document.getElementById(id)
         if (!element) return null
@@ -51,7 +53,7 @@ export const useActiveSection = (sectionIds: string[]) => {
         const closestSection = sections.reduce((closest, current) => {
           if (!current || !closest) return current || closest
           return current.distanceFromTop < closest.distanceFromTop ? current : closest
-        }, null as any)
+        }, null as typeof sections[0])
         
         if (closestSection) {
           activeId = closestSection.id
@@ -61,9 +63,10 @@ export const useActiveSection = (sectionIds: string[]) => {
       if (activeId !== activeSection) {
         setActiveSection(activeId)
       }
-    }, 50),
-    [sectionIds, activeSection]
-  )
+    }, 50)
+    
+    throttledUpdate()
+  }, [sectionIds, activeSection])
 
   useEffect(() => {
     updateActiveSection()

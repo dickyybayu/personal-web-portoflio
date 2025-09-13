@@ -41,7 +41,7 @@ export const AboutSection = memo<SectionProps>(({ id = 'about', className = '' }
             
             <div className="relative z-10">
               <p className="text-lg mb-6 text-slate-300 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
-                I'm a third-year Computer Science student at Universitas Indonesia with a strong interest in software engineering, artificial intelligence, and financial technology. I'm passionate about building efficient, scalable systems and exploring how intelligent and decentralized technologies can solve real-world problems, particularly in the finance sector.
+                I&apos;m a third-year Computer Science student at Universitas Indonesia with a strong interest in software engineering, artificial intelligence, and financial technology. I&apos;m passionate about building efficient, scalable systems and exploring how intelligent and decentralized technologies can solve real-world problems, particularly in the finance sector.
               </p>
             
             <AnimatePresence>
@@ -53,10 +53,10 @@ export const AboutSection = memo<SectionProps>(({ id = 'about', className = '' }
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
                 >
                   <p className="text-lg text-slate-300 mb-6 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
-                    Through a combination of academic learning and hands-on projects, I'm developing a solid foundation in programming, algorithms, and system design. I'm also exploring the fundamentals of machine learning, AI development, and the growing impact of fintech on the global economy.
+                    Through a combination of academic learning and hands-on projects, I&apos;m developing a solid foundation in programming, algorithms, and system design. I&apos;m also exploring the fundamentals of machine learning, AI development, and the growing impact of fintech on the global economy.
                   </p>
                   <p className="text-lg text-slate-300 mb-6 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
-                    I enjoy working on practical solutions, learning new tools, and collaborating on projects that challenge me to grow as both a developer and a thinker. I'm always looking for opportunities to learn, create, and contribute to meaningful tech projects across software, AI, and finance.
+                    I enjoy working on practical solutions, learning new tools, and collaborating on projects that challenge me to grow as both a developer and a thinker. I&apos;m always looking for opportunities to learn, create, and contribute to meaningful tech projects across software, AI, and finance.
                   </p>
                 </motion.div>
               )}
