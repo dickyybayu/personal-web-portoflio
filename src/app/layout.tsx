@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dicky Bayu - Full Stack Developer | Web3 & AI Engineer",
+  title: "Dicky Bayu Sadewo - Full Stack Developer | Web3 & AI Engineer",
   description: "Full-Stack Developer specializing in Web3, AI, and modern web technologies. Building innovative solutions with React, Next.js, blockchain, and machine learning.",
   icons: {
     icon: "/favicon.ico",
