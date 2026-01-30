@@ -2,18 +2,34 @@ import { Experience } from '@/lib/types'
 
 export const experience: Experience[] = [
   {
+    id: 'kripto-ui',
+    title: 'Blockchain Lead',
+    company: 'Kripto UI',
+    period: 'Jan 2026 - Present',
+    description: 'Leading blockchain-focused initiatives and Web3 education within the organization. Designing comprehensive learning modules and guiding members in exploring real-world blockchain applications and decentralized technologies.',
+    achievements: [
+      'Led and coordinated blockchain-focused initiatives within the organization',
+      'Designed learning modules, discussions, and hands-on sessions on blockchain and Web3',
+      'Collaborated with cross-functional teams to plan events, partnerships, and technical projects',
+      'Guided members in exploring real-world use cases of blockchain and decentralized applications'
+    ],
+    tags: ['Blockchain', 'Web3', 'Leadership', 'Education', 'Technical Projects', 'Cryptocurrency'],
+    current: true,
+    image: '/images/experience/kriptoUI.jpg'
+  },
+  {
     id: 'pesta-rakyat-komputer',
     title: 'Person in Charge – Competitive Games',
     company: 'Pesta Rakyat Komputer',
-    period: 'Feb 2025 - Present',
-    description: 'Leading competitive gaming tournaments for a major tech festival in Depok, Indonesia. Managing comprehensive tournament operations with large-scale participation and complex logistics coordination.',
+    period: 'Feb 2025 - Sep 2025',
+    description: 'Led competitive gaming tournaments for a major tech festival in Depok, Indonesia. Managed comprehensive tournament operations with large-scale participation and complex logistics coordination.',
     achievements: [
       'Led a 17-member team to plan and execute competitive gaming tournaments with over 250 participants',
       'Oversaw logistics, tournament structure, and technical operations to ensure a smooth and engaging experience',
       'Coordinated with committees and external partners to secure sponsorships and promote the gaming division'
     ],
     tags: ['Event Management', 'Team Leadership', 'Gaming', 'Logistics', 'Sponsorship', 'Operations'],
-    current: true,
+    current: false,
     image: '/images/experience/perak.jpg'
   },
   {

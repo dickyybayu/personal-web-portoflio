@@ -25,7 +25,7 @@ const TechCard = memo(({ tech }: { tech: typeof techStack[0] }) => (
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary-blue/10 to-accent-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
       {/* Shadow layer behind card */}
-      <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-primary-blue/3 to-accent-cyan/3 blur-md opacity-0 group-hover:opacity-40 transition-all duration-500 scale-102" />
+      <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-primary-blue/3 to-accent-cyan/3 blur-md opacity-0 group-hover:opacity-40 transition-all duration-300 scale-102" />
       
       {/* Icon container with enhanced styling */}
       <div className="relative w-16 h-16 mb-6 rounded-xl bg-gradient-to-br from-slate-700/50 to-slate-800/50 flex items-center justify-center shadow-lg group-hover:shadow-primary-blue/40 transition-all duration-300 border border-slate-600/30 group-hover:border-primary-blue/40 group-hover:scale-110 overflow-hidden">

@@ -14,11 +14,7 @@ export function ParticleBackground() {
 
     const updateCanvasSize = () => {
       canvas.width = window.innerWidth
-      canvas.height = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight,
-        window.innerHeight
-      )
+      canvas.height = window.innerHeight
     }
 
     updateCanvasSize()
@@ -48,6 +44,15 @@ export function ParticleBackground() {
 
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+      // Pre-create color map untuk menghindari string concat setiap frame
+      const colorMap = [
+        { r: 147, g: 197, b: 253 }, // Jedi blue
+        { r: 103, g: 232, b: 249 }, // Force cyan
+        { r: 251, g: 191, b: 36 },  // Imperial gold
+        { r: 196, g: 181, b: 253 }, // Force violet
+        { r: 255, g: 255, b: 255 }, // Distant stars
+      ]
+
       particles.forEach((particle, index) => {
         particle.x += particle.vx
         particle.y += particle.vy
@@ -55,33 +60,14 @@ export function ParticleBackground() {
         if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1
         if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1
 
-        const colors = [
-          `rgba(147, 197, 253, ${particle.opacity})`, // Jedi blue
-          `rgba(103, 232, 249, ${particle.opacity})`, // Force cyan
-          `rgba(251, 191, 36, ${particle.opacity})`,  // Imperial gold
-          `rgba(196, 181, 253, ${particle.opacity})`, // Force violet
-          `rgba(255, 255, 255, ${particle.opacity * 0.8})`, // Distant stars
-        ]
-        const colorIndex = index % colors.length
+        const colorIndex = index % colorMap.length
+        const color = colorMap[colorIndex]
 
+        // Render tanpa shadow untuk performa lebih baik
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fillStyle = colors[colorIndex]
+        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${particle.opacity})`
         ctx.fill()
-
-        // Add enhanced glow effect for space atmosphere
-        ctx.shadowColor = colors[colorIndex]
-        ctx.shadowBlur = particle.size * 3
-        ctx.fill()
-        ctx.shadowBlur = 0
-
-        // Add twinkling effect for distant stars
-        if (colorIndex === 4) { // White stars
-          const twinkle = Math.sin(Date.now() * 0.005 + index) * 0.3 + 0.7
-          ctx.globalAlpha = twinkle
-          ctx.fill()
-          ctx.globalAlpha = 1
-        }
       })
 
       requestAnimationFrame(animate)
@@ -101,5 +87,5 @@ export function ParticleBackground() {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none opacity-70 z-0" />
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none opacity-70 z-0 h-screen" />
 }

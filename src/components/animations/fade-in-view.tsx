@@ -42,7 +42,7 @@ export const FadeInView = memo<FadeInViewProps>(({
       initial="hidden"
       whileInView="visible"
       transition={{ duration, delay, ease: 'easeOut' }}
-      viewport={{ once, margin: '-50px' }}
+      viewport={{ once, margin: '-100px' }}
     >
       {children}
     </motion.div>

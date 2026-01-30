@@ -74,10 +74,10 @@ export function ShootingStars() {
 
     // Create shooting stars very infrequently for special moments
     const shootingStarInterval = setInterval(() => {
-      if (Math.random() < 0.15) { // Much lower chance to appear
+      if (Math.random() < 0.1) { // Much lower chance to appear
         createShootingStar()
       }
-    }, 8000) // Much longer intervals between attempts
+    }, 12000) // Much longer intervals between attempts
 
     function animate() {
       if (!ctx || !canvas) return
@@ -109,23 +109,12 @@ export function ShootingStars() {
           continue
         }
 
-        // Draw shooting star trail
+        // Draw shooting star trail - simplified untuk performa
         ctx.save()
         ctx.globalAlpha = star.opacity
 
-        const gradient = ctx.createLinearGradient(
-          star.x,
-          star.y,
-          star.x - star.vx * star.length,
-          star.y - star.vy * star.length,
-        )
-        gradient.addColorStop(0, "#FFFFFF")
-        gradient.addColorStop(0.3, "#F59E0B") // accent-gold
-        gradient.addColorStop(0.6, "#22D3EE") // accent-cyan
-        gradient.addColorStop(1, "transparent")
-
-        ctx.strokeStyle = gradient
-        ctx.lineWidth = 3 // Thicker trail for better visibility
+        ctx.strokeStyle = `rgba(255, 255, 255, ${star.opacity})`
+        ctx.lineWidth = 2
         ctx.lineCap = "round"
 
         ctx.beginPath()
@@ -133,15 +122,10 @@ export function ShootingStars() {
         ctx.lineTo(star.x - star.vx * star.length, star.y - star.vy * star.length)
         ctx.stroke()
 
-        // Draw bright head
-        const headGradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, 8)
-        headGradient.addColorStop(0, "#FFFFFF")
-        headGradient.addColorStop(0.5, "#F59E0B") // accent-gold
-        headGradient.addColorStop(1, "transparent")
-
-        ctx.fillStyle = headGradient
+        // Draw bright head - simplified
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`
         ctx.beginPath()
-        ctx.arc(star.x, star.y, 8, 0, Math.PI * 2) // Bigger head for visibility
+        ctx.arc(star.x, star.y, 4, 0, Math.PI * 2)
         ctx.fill()
 
         ctx.restore()

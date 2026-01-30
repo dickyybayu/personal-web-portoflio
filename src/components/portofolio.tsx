@@ -43,7 +43,7 @@ const Portfolio = memo(() => {
         <motion.div
           className="h-full bg-gradient-to-r from-jedi-blue to-force-cyan will-change-transform"
           style={{ width: `${scrollProgress}%` }}
-          transition={{ duration: 0.05, ease: "linear" }}
+          transition={{ duration: 0.1, ease: "linear" }}
         />
       </div>
 

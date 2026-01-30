@@ -86,6 +86,26 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
+
+  /* Disable animations during scroll untuk better performance */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Performance optimizations */
+  canvas {
+    will-change: contents;
+  }
 }
 
 /* Custom utility classes for professional theme */

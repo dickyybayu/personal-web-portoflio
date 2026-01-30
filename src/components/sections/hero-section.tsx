@@ -204,7 +204,7 @@ export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) 
             Dicky Bayu Sadewo
           </h2>
           <div className="flex flex-wrap justify-center gap-2 mb-6">
-            {['Web3 Engineer', 'AI Engineer'].map((title, i) => (
+            {['Full-Stack AI Engineer', 'Web3 Engineer'].map((title, i) => (
               <motion.span
                 key={title}
                 className="px-4 py-2 bg-primary-blue/20 border border-primary-blue/30 rounded-full text-sm font-medium text-primary-blue"
