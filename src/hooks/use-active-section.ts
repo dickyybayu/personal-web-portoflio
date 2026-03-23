@@ -1,77 +1,80 @@
-import { useState, useEffect, useCallback } from 'react'
-
-type ThrottledFunction = (...args: unknown[]) => void
-
-const throttle = (func: ThrottledFunction, limit: number): ThrottledFunction => {
-  let inThrottle: boolean
-  return function(this: unknown, ...args: unknown[]) {
-    if (!inThrottle) {
-      func.apply(this, args)
-      inThrottle = true
-      setTimeout(() => inThrottle = false, limit)
-    }
-  }
-}
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 export const useActiveSection = (sectionIds: string[]) => {
   const [activeSection, setActiveSection] = useState(sectionIds[0] || '')
+  const activeSectionRef = useRef(activeSection)
+  const frameRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    activeSectionRef.current = activeSection
+  }, [activeSection])
 
   const updateActiveSection = useCallback(() => {
-    const throttledUpdate = throttle(() => {
-      const sections = sectionIds.map(id => {
-        const element = document.getElementById(id)
-        if (!element) return null
-        
-        const rect = element.getBoundingClientRect()
-        return {
-          id,
-          element,
-          top: rect.top,
-          bottom: rect.bottom,
-          isVisible: rect.top <= 100 && rect.bottom >= 100,
-          distanceFromTop: Math.abs(rect.top)
-        }
-      }).filter(Boolean)
+    if (frameRef.current !== null) return
 
-      // Check if we're near the bottom of the page (within 200px)
-      const isNearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200
-      
-      // If we're near the bottom, always select the last section (contact)
+    frameRef.current = window.requestAnimationFrame(() => {
+      const sections = sectionIds
+        .map(id => {
+          const element = document.getElementById(id)
+          if (!element) return null
+
+          const rect = element.getBoundingClientRect()
+          return {
+            id,
+            top: rect.top,
+            bottom: rect.bottom,
+            isVisible: rect.top <= 100 && rect.bottom >= 100,
+            distanceFromTop: Math.abs(rect.top)
+          }
+        })
+        .filter(Boolean)
+
+      const isNearBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200
+
       if (isNearBottom) {
-        setActiveSection(sectionIds[sectionIds.length - 1])
+        const lastSection = sectionIds[sectionIds.length - 1] || ''
+        if (lastSection !== activeSectionRef.current) {
+          setActiveSection(lastSection)
+        }
+        frameRef.current = null
         return
       }
 
-      // Find the visible section or the one closest to the top
-      let activeId = activeSection
+      let nextActiveSection = activeSectionRef.current
       const visibleSection = sections.find(section => section?.isVisible)
-      
+
       if (visibleSection) {
-        activeId = visibleSection.id
+        nextActiveSection = visibleSection.id
       } else {
-        // Find the section closest to the top
         const closestSection = sections.reduce((closest, current) => {
           if (!current || !closest) return current || closest
           return current.distanceFromTop < closest.distanceFromTop ? current : closest
         }, null as typeof sections[0])
-        
+
         if (closestSection) {
-          activeId = closestSection.id
+          nextActiveSection = closestSection.id
         }
       }
-      
-      if (activeId !== activeSection) {
-        setActiveSection(activeId)
+
+      if (nextActiveSection !== activeSectionRef.current) {
+        setActiveSection(nextActiveSection)
       }
-    }, 50)
-    
-    throttledUpdate()
-  }, [sectionIds, activeSection])
+
+      frameRef.current = null
+    })
+  }, [sectionIds])
 
   useEffect(() => {
     updateActiveSection()
     window.addEventListener('scroll', updateActiveSection, { passive: true })
-    return () => window.removeEventListener('scroll', updateActiveSection)
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection)
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current)
+      }
+    }
   }, [updateActiveSection])
 
   return activeSection

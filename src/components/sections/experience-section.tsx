@@ -15,7 +15,7 @@ export const ExperienceSection = memo<SectionProps>(({ id = 'experience', classN
       {/* Background Timeline Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute top-1/4 left-1/4 w-48 h-48 bg-gradient-to-br from-primary-blue/15 to-accent-cyan/10 rounded-full mix-blend-multiply filter blur-xl"
+          className="absolute top-1/4 left-1/4 h-48 w-48 rounded-full bg-gradient-to-br from-primary-blue/12 to-accent-cyan/8 blur-3xl"
           animate={{ 
             scale: [1, 1.2, 1], 
             rotate: [0, 180, 360],
@@ -24,7 +24,7 @@ export const ExperienceSection = memo<SectionProps>(({ id = 'experience', classN
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div 
-          className="absolute bottom-1/3 right-1/4 w-32 h-32 bg-gradient-to-bl from-accent-cyan/15 to-primary-blue-light/10 rounded-full mix-blend-multiply filter blur-xl"
+          className="absolute bottom-1/3 right-1/4 h-32 w-32 rounded-full bg-gradient-to-bl from-accent-cyan/12 to-primary-blue/8 blur-3xl"
           animate={{ 
             scale: [1.2, 0.8, 1.2],
             rotate: [360, 180, 0],

@@ -80,11 +80,16 @@
   
   html {
     scroll-behavior: smooth;
+    background-color: #020617;
   }
   
   body {
-    background-color: hsl(var(--background));
+    background-color: #020617;
     color: hsl(var(--foreground));
+    min-height: 100vh;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+    background-image: linear-gradient(to bottom right, #020617, #0f172a, #000000);
   }
 
   /* Disable animations during scroll untuk better performance */
@@ -314,7 +319,12 @@
 }
 
 /* Smooth animations with performance optimization */
-* {
+a,
+button,
+input,
+textarea,
+select,
+[role="button"] {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
     transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

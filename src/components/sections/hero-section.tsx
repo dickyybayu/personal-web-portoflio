@@ -1,15 +1,25 @@
 'use client'
 
 import { memo, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { ChevronDown, Globe, Github, Linkedin, Mail } from 'lucide-react'
 import { useTypewriter } from '@/hooks/use-typewriter'
 import { SectionProps } from '@/lib/types'
 
 export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [hasAnimated, setHasAnimated] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const springX = useSpring(mouseX, { stiffness: 60, damping: 20, mass: 0.3 })
+  const springY = useSpring(mouseY, { stiffness: 60, damping: 20, mass: 0.3 })
+  const glowTwoX = useTransform(springX, value => value * -0.75)
+  const glowTwoY = useTransform(springY, value => value * -0.75)
+  const glowThreeX = useTransform(springX, value => value * 1.2)
+  const glowThreeY = useTransform(springY, value => value * 1.2)
+  const glowFourX = useTransform(springX, value => value * -0.9)
+  const glowFourY = useTransform(springY, value => value * -0.9)
   
   const { displayText, isComplete } = useTypewriter('Building the Future with Web3 + AI', { 
     speed: 80, 
@@ -26,19 +36,32 @@ export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) 
   const finalText = hasAnimated ? 'Building the Future with Web3 + AI' : displayText
 
   useEffect(() => {
+    if (prefersReducedMotion) return
+
+    let frameId: number | null = null
+
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = document.getElementById(id)?.getBoundingClientRect()
-      if (rect) {
-        setMousePosition({
-          x: (e.clientX - rect.left - rect.width / 2) / 20,
-          y: (e.clientY - rect.top - rect.height / 2) / 20
-        })
-      }
+      if (frameId !== null) return
+
+      frameId = window.requestAnimationFrame(() => {
+        const rect = document.getElementById(id)?.getBoundingClientRect()
+        if (rect) {
+          mouseX.set((e.clientX - rect.left - rect.width / 2) / 20)
+          mouseY.set((e.clientY - rect.top - rect.height / 2) / 20)
+        }
+        frameId = null
+      })
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [id])
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
+  }, [id, mouseX, mouseY, prefersReducedMotion])
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
@@ -55,40 +78,28 @@ export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) 
       {/* Enhanced Animated background gradients */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-blue/30 rounded-full mix-blend-multiply filter blur-xl"
-          animate={{ 
-            scale: [1, 1.2, 1], 
-            x: mousePosition.x * 2,
-            y: mousePosition.y * 2
-          }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-primary-blue/18 blur-3xl"
+          style={prefersReducedMotion ? undefined : { x: springX, y: springY }}
+          animate={prefersReducedMotion ? undefined : { scale: [1, 1.08, 1] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div 
-          className="absolute top-3/4 right-1/4 w-80 h-80 bg-accent-cyan/25 rounded-full mix-blend-multiply filter blur-xl"
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            x: mousePosition.x * -1.5,
-            y: mousePosition.y * -1.5
-          }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-3/4 right-1/4 h-80 w-80 rounded-full bg-accent-cyan/16 blur-3xl"
+          style={prefersReducedMotion ? undefined : { x: glowTwoX, y: glowTwoY }}
+          animate={prefersReducedMotion ? undefined : { scale: [1.08, 1, 1.08] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
         />
         <motion.div 
-          className="absolute bottom-1/4 left-1/2 w-72 h-72 bg-primary-blue-light/20 rounded-full mix-blend-multiply filter blur-xl"
-          animate={{ 
-            scale: [1, 1.3, 1],
-            x: mousePosition.x * 3,
-            y: mousePosition.y * 3
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-1/4 left-1/2 h-72 w-72 rounded-full bg-primary-blue/12 blur-3xl"
+          style={prefersReducedMotion ? undefined : { x: glowThreeX, y: glowThreeY }}
+          animate={prefersReducedMotion ? undefined : { scale: [1, 1.14, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />
         <motion.div 
-          className="absolute top-1/2 right-1/3 w-48 h-48 bg-accent-gold/15 rounded-full mix-blend-multiply filter blur-xl"
-          animate={{ 
-            scale: [1.1, 1, 1.1],
-            x: mousePosition.x * -2,
-            y: mousePosition.y * -2
-          }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          className="absolute top-1/2 right-1/3 h-48 w-48 rounded-full bg-accent-gold/12 blur-3xl"
+          style={prefersReducedMotion ? undefined : { x: glowFourX, y: glowFourY }}
+          animate={prefersReducedMotion ? undefined : { scale: [1.05, 1, 1.05] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
         />
         
         {/* Floating particles */}
@@ -274,7 +285,7 @@ export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) 
             whileTap={{ scale: 0.95 }}
           >
             <span className="relative z-10 flex items-center">
-              🚀 Explore My Work
+              Explore My Work
               <ChevronDown className="inline ml-2 group-hover:translate-y-1 transition-transform" />
             </span>
             <motion.div
@@ -292,7 +303,7 @@ export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) 
             whileTap={{ scale: 0.95 }}
           >
             <span className="relative z-10 flex items-center">
-              🌟 Get In Touch
+              Get In Touch
               <Globe className="inline ml-2 group-hover:rotate-12 transition-transform" />
             </span>
             <motion.div
