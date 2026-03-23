@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useState, useEffect, useRef } from 'react'
+import { memo, useState, useEffect, useRef, Fragment } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send } from 'lucide-react'
 import { ChatMessage } from '@/lib/types'
@@ -249,6 +249,38 @@ const suggestedQuestions = [
   "⚡ What technologies does he specialize in?"
 ] as const
 
+const formatAIResponse = (text: string) => {
+  return text
+    .replace(/\r\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/([.!?])\s+(?=[A-Z0-9•\-])/g, '$1\n')
+    .trim()
+}
+
+const renderMessageContent = (text: string) => {
+  const blocks = text.split('\n').filter(Boolean)
+
+  return blocks.map((block, index) => {
+    const trimmed = block.trim()
+    const isBullet = /^([•\-*]\s+)/.test(trimmed)
+
+    if (isBullet) {
+      return (
+        <div key={`${trimmed}-${index}`} className="flex items-start gap-2 text-sm leading-relaxed">
+          <span className="mt-1 text-accent-cyan">•</span>
+          <span>{trimmed.replace(/^([•\-*]\s+)/, '')}</span>
+        </div>
+      )
+    }
+
+    return (
+      <Fragment key={`${trimmed}-${index}`}>
+        <p className="text-sm leading-relaxed">{trimmed}</p>
+      </Fragment>
+    )
+  })
+}
+
 const ChatBot = memo(() => {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -321,7 +353,7 @@ const ChatBot = memo(() => {
     const aiResponse: ChatMessage = {
       id: (Date.now() + 1).toString(),
       type: 'ai',
-      text: responseText,
+      text: formatAIResponse(responseText),
       timestamp: new Date()
     }
 
@@ -557,7 +589,11 @@ const ChatBot = memo(() => {
                         ? 'bg-gradient-to-r from-accent-cyan to-primary-blue text-white ml-4 shadow-lg' 
                         : 'bg-slate-800/70 text-slate-200 mr-4 border border-slate-600/30'
                     }`}>
-                      <p className="text-sm leading-relaxed">{message.text}</p>
+                      <div className="space-y-2">
+                        {message.type === 'ai' ? renderMessageContent(message.text) : (
+                          <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.text}</p>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
