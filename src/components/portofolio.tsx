@@ -35,7 +35,8 @@ const Portfolio = memo(() => {
   const { scrollProgress } = useScrollProgress()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-black text-white overflow-x-hidden relative">
+    <div className="relative min-h-screen overflow-x-hidden bg-slate-950 text-white isolate">
+      <div className="fixed inset-0 -z-20 bg-gradient-to-br from-slate-950 via-slate-900 to-black" />
       <ParticleBackground />
       <ShootingStars />
       
@@ -47,39 +48,41 @@ const Portfolio = memo(() => {
         />
       </div>
 
-      <Navigation />
-      <HeroSection />
-      <AboutSection />
+      <div className="relative z-10">
+        <Navigation />
+        <HeroSection />
+        <AboutSection />
 
-      <Suspense fallback={<SectionSkeleton />}>
-        <TechSection />
-      </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <TechSection />
+        </Suspense>
 
-      <Suspense fallback={<SectionSkeleton />}>
-        <ExperienceSection />
-      </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <ExperienceSection />
+        </Suspense>
 
-      <Suspense fallback={<SectionSkeleton />}>
-        <ProjectsSection />
-      </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <ProjectsSection />
+        </Suspense>
 
-      <Suspense fallback={<SectionSkeleton />}>
-        <ContactSection />
-      </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <ContactSection />
+        </Suspense>
 
-      {/* Chat Bot - Lazy loaded */}
-      <Suspense fallback={null}>
-        <ChatBot />
-      </Suspense>
+        {/* Chat Bot - Lazy loaded */}
+        <Suspense fallback={null}>
+          <ChatBot />
+        </Suspense>
 
-      {/* Footer */}
-      <footer className="py-8 px-4 md:px-8 border-t border-border">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-muted-foreground">
-            © 2025 Dicky Bayu. All rights reserved.
-          </p>
-        </div>
-      </footer>
+        {/* Footer */}
+        <footer className="py-8 px-4 md:px-8 border-t border-border">
+          <div className="max-w-4xl mx-auto text-center">
+            <p className="text-muted-foreground">
+              © 2025 Dicky Bayu. All rights reserved.
+            </p>
+          </div>
+        </footer>
+      </div>
     </div>
   )
 })
