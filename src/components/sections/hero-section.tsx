@@ -166,7 +166,7 @@ export const HeroSection = memo<SectionProps>(({ id = 'hero', className = '' }) 
               >
                 <Image 
                   src="/profiledicky.jpg" 
-                  alt="Dicky Bayu Sadewo- Web3 & AI Engineer" 
+                  alt="Dicky Bayu Sadewo - Web3 & AI Engineer" 
                   width={288}
                   height={288}
                   className="w-full h-full object-cover object-center scale-110"
